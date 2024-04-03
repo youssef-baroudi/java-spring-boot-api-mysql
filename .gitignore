@@ -23,3 +23,5 @@ dist/
 nbdist/
 .nb-gradle/
 .elasticbeanstalk
+db/
+.m2/

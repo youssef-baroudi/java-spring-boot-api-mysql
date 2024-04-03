@@ -3,12 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.example</groupId>
-	<artifactId>easy-notes</artifactId>
-	<version>1.0.0</version>
+	<groupId>com.youssefbaroudi</groupId>
+	<artifactId>easy-notes-spring-boot-mysql</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
-	<name>easy-notes</name>
+	<name>easy-notes-spring-boot-mysql</name>
 	<description>Rest API for a Simple Note Taking Application</description>
 
 	<parent>
