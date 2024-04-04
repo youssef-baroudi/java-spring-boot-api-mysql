@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: notesapp-javapi
+  labels:
+    app: notesapp-javapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notesapp-javapi
+  template:  
+    metadata:
+      labels: 
+        app: notesapp-javapi
+    spec:
+      initContainers:
+        - name: init-db
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql-svc 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
+      containers:
+        - name: notesapp-javapi
+          image: 1youssefbaroudi1/notesapp-javapi:v2
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 8080           
+          env:
+            - name: DB_SERVER
+              value: "mysql-svc"      
+            - name: DB_NAME
+              value: "notes_app"            
+            - name: DB_USERNAME
+              value: "root"            
+            - name: DB_PASSWORD
+              value: "H@kima123"    
+      # To schedule pods on based on NodeSelectors
+      nodeSelector:
+        app: apps-node
+     
