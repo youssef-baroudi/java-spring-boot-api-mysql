@@ -26,13 +26,25 @@ spec:
             - containerPort: 8080           
           env:
             - name: DB_SERVER
-              value: "mysql-svc"      
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-server      
             - name: DB_NAME
-              value: "notes_app"            
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-database-name            
             - name: DB_USERNAME
-              value: "root"            
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-user-username          
             - name: DB_PASSWORD
-              value: "H@kima123"    
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: mysql-root-password    
       # To schedule pods on based on NodeSelectors
       nodeSelector:
         app: apps-node

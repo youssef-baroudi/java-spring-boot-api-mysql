@@ -19,22 +19,25 @@ spec:
           image: mysql:latest
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: H@kima123
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: mysql-root-password
           ports:
             - containerPort: 3306
               name: mysql    
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql    
-            - name: notesapp-dbcreation-script
+            - name: mysql-config-map
               mountPath: /docker-entrypoint-initdb.d #https://hub.docker.com/_/mysql Refer Initializing a fresh instance                                            
       volumes: 
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: local-notesapp-disk-pvc
-        - name: notesapp-dbcreation-script
+        - name: mysql-config-map
           configMap:
-            name: notesapp-dbcreation-script
+            name: mysql-config-map
       # To schedule pods on based on NodeSelectors
       nodeSelector:
         app: apps-node
