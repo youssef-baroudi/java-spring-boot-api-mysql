@@ -1,5 +1,8 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -26,3 +29,8 @@ nbdist/
 db/
 .m2/
 .env
+
+### VS Code ###
+.vscode/
+*.yaml
+*.yml
