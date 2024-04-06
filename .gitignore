@@ -27,10 +27,10 @@ nbdist/
 .nb-gradle/
 .elasticbeanstalk
 db/
-.m2/
-.env
+#.m2/
+#.env
 
 ### VS Code ###
 .vscode/
-*.yaml
-*.yml
+#*.yaml
+#*.yml

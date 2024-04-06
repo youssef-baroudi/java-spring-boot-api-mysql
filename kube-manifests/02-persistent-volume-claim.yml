@@ -1,0 +1,23 @@
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: azure-managed-disk-pvc
+#spec:
+#  accessModes:
+#  - ReadWriteOnce
+#  storageClassName: managed-premium-retain-sc
+#  resources:
+#    requests:
+#      storage: 5Gi  
+      
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-notesapp-disk-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage #local-notesapp-retain-sc 
+  resources:
+    requests:
+      storage: 500Mi 
