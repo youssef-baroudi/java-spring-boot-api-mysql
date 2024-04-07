@@ -1,9 +1,9 @@
   pipeline {
-      //agent any 
-      agent
+      agent any 
+      /*agent
       {
           label 'node1'
-      }
+      }*/
       environment 
       {
           registry = 'https://hub.docker.com/repositories/1youssefbaroudi1'
@@ -46,70 +46,93 @@
                       }
                   }
           }
-          stage('Building the Image') 
+
+        // Print some information
+        stage ('Print Environment variables')
         {
-              steps 
-          {
-                  script 
+            steps 
             {
-              //dockerImage = docker.build registry + ":$BUILD_NUMBER"
-              dockerImage = docker.build "1youssefbaroudi1/pringboot-maven:$BUILD_NUMBER"
+                echo "Artifact ID is '${ArtifactId}'"
+                echo "Version is '${Version}'"
+                echo "GroupID is '${GroupId}'"
+                echo "Name is '${Name}'"
             }
-          }
-          }
-          stage ('Deploy the Image to yb docker hub') 
-          {
-              steps 
-              {
-                  script 
-                  {
-                      docker.withRegistry( '', registryCredential )
-                      {
-                          dockerImage.push()
-                      }
-                  }
-              }
-          }
-          stage('Cleaning up') 
-          {
-              steps
-              {
-                  sh "docker rmi 1youssefbaroudi1/pringboot-maven:$BUILD_NUMBER"
-              }
-          }
-          /*stage('Deploy to cd-server and run the container') => do not work
-          {
-              steps
-              {
-                  ansiblePlaybook credentialsId: 'private-key-to-cd-server', installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/ansible-deployment.yml', vaultTmpPath: ''
-              }    
-          }
-          stage('Deploy to cd-server and run the container using ssh') => do not work
-          {
-              steps 
-              {
-                  script
-                  {
-                      sh "sudo ansible-playbook /etc/ansible/ansible-deployment.yml"
-                  }
-              }
-          }
-          stage('Execute Ansible playbook in production using only docker') => work fine
-          {
-              steps 
-              {
-                  ansiblePlaybook playbook: '/opt/playbooks/ansible-deployment-docker.yml'
-              }
-          }*/
-          stage('Execute Ansible playbook in production using k8') 
-          {
-              steps 
-              {
-                sh "echo 'youssef baroudi'"
-                sh "pwd"
-                sh "sed -i 's,Image_BuildNumber,$BUILD_NUMBER,g' springboot-deployment.yml"
-                ansiblePlaybook playbook: 'ansible-deployment.using-k8.yml'
-              }
-          }
+        } 
+
+        // Publish the artifacts to Nexus
+        stage ('Publish to Nexus')
+        {
+            steps 
+            {
+                script 
+                {
+                    def NexusRepo = Version.endsWith("SNAPSHOT") ? "java-api-mysql-SNAPSHOT" : "java-api-mysql-RELEASE"
+
+                    nexusArtifactUploader artifacts: 
+                    [[artifactId: "${ArtifactId}", 
+                    classifier: '', 
+                    file: "target/${ArtifactId}-${Version}.jar", 
+                    type: 'jar']], 
+                    credentialsId: 'Nexus-credential', 
+                    groupId: "${GroupId}", 
+                    nexusUrl: '192.168.0.211:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: "${NexusRepo}", 
+                    version: "${Version}"
+                }
+            }
+        }
+        stage('Building the Image') 
+        {
+          steps 
+            {
+              script 
+                {
+                    dockerImage = docker.build "1youssefbaroudi1/notesapp-javapi:$BUILD_NUMBER"
+                }
+            }
+        }
+        stage ('Deploy the Image to yb docker hub') 
+        {
+            steps 
+            {
+                script 
+                {
+                    docker.withRegistry( '', registryCredential )
+                    {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Cleaning up') 
+        {
+            steps
+            {
+                sh "1youssefbaroudi1/notesapp-javapi:$BUILD_NUMBER"
+            }
+        }
+
+        /* Deploy using docker-compose 
+        stage('Execute Ansible playbook in production using only docker-compose')
+        {
+            steps 
+            {
+                ansiblePlaybook playbook: '/opt/playbooks/ansible-deployment-docker.yml'
+            }
+        }
+        /*
+        stage('Execute Ansible playbook in production using k8') 
+        {
+            steps 
+            {
+              sh "echo 'youssef baroudi'"
+              sh "pwd"
+              sh "sed -i 's,Image_BuildNumber,$BUILD_NUMBER,g' springboot-deployment.yml"
+              ansiblePlaybook playbook: 'ansible-deployment.using-k8.yml'
+            }
+        }*/
       }
   }

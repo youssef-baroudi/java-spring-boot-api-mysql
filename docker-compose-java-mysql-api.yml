@@ -15,7 +15,10 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: .
+    #build: . // build done before
+    image: 1youssefbaroudi1/notesapp-javapi:$BUILD_TAG
+    hostname: docker-server
+    container_name: notesapp-javapi
     restart: on-failure
     env_file: ./.env
     ports:
