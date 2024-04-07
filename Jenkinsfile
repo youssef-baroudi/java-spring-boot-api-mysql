@@ -6,9 +6,13 @@
       }*/
       environment 
       {
-          registry = 'https://hub.docker.com/repositories/1youssefbaroudi1'
-          registryCredential = 'jenkins-dockerhub-login-credentials'
-          dockerimage = ''
+        ArtifactId = readMavenPom().getArtifactId()
+        Version = readMavenPom().getVersion()
+        Name = readMavenPom().getName()
+        GroupId = readMavenPom().getGroupId()
+        registry = 'https://hub.docker.com/repositories/1youssefbaroudi1'
+        registryCredential = 'jenkins-dockerhub-login-credentials'
+        dockerimage = ''
       }
       stages
       {
