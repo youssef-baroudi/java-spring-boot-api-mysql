@@ -97,7 +97,7 @@
                 }
             }
         }
-        stage ('Deploy the Image to yb docker hub') 
+        stage ('Push to docker hub') 
         {
             steps 
             {
@@ -111,7 +111,7 @@
             }
         }
 
-        stage('Cleaning up') 
+        stage('Cleaning up docker image') 
         {
             steps
             {
@@ -120,7 +120,7 @@
         }
 
         /* Deploy using docker-compose 
-        stage('Execute Ansible playbook in production using only docker-compose')
+        stage('push to production using docker-compose')
         {
             steps 
             {
@@ -128,7 +128,7 @@
             }
         }
         /*
-        stage('Execute Ansible playbook in production using k8') 
+        stage('Push to production using k8') 
         {
             steps 
             {
