@@ -17,10 +17,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY target/easy-notes-spring-boot-mysql-1.0.0-SNAPSHOT.jar /app
+COPY ./target/easy-notes-spring-boot-mysql-4.0.0-SNAPSHOT.jar /app
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Run spring-mysql-demo.jar when the container launches
-CMD ["java", "-jar", "easy-notes-spring-boot-mysql-1.0.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "easy-notes-spring-boot-mysql-4.0.0-SNAPSHOT.jar"]
