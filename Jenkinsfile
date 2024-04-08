@@ -62,9 +62,9 @@
                 echo "Name is '${Name}'"
             }
         } 
-
+        
         // Publish the artifacts to Nexus
-        stage ('Publish to Nexus')
+        stage ('Publish files to Nexus')
         {
             steps 
             {
@@ -73,10 +73,17 @@
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "java-api-mysql-SNAPSHOT" : "java-api-mysql-RELEASE"
 
                     nexusArtifactUploader artifacts: 
-                    [[artifactId: "${ArtifactId}", 
-                    classifier: '', 
-                    file: "target/${ArtifactId}-${Version}.jar", 
-                    type: 'jar']], 
+                    [
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "target/${ArtifactId}-${Version}.jar", 
+                        type: 'jar'],
+                        
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "docker-compose-java-mysql-api.yml", 
+                        type: 'yml']
+                    ], 
                     credentialsId: 'Nexus-credential', 
                     groupId: "${GroupId}", 
                     nexusUrl: '192.168.0.211:8081', 
@@ -118,6 +125,34 @@
                 sh "1youssefbaroudi1/notesapp-javapi:$BUILD_NUMBER"
             }
         }
+
+        // Deploying using docker-compose
+        /*stage ('Deploy to production using docker-compose')
+        {
+            steps 
+            {
+                echo "Copying artifacts from nexus and deploying using docker-compose ...."
+                sshPublisher(publishers: 
+                [sshPublisherDesc
+                (
+                    configName: 'Ansible_Controller', 
+                    transfers: 
+                    [
+                        sshTransfer
+                        (
+                                cleanRemote:false,      
+                                execCommand: 'ansible-playbook /opt/playbooks/ansible-docker-compose.yml -i /opt/playbooks/hosts ',
+                                execTimeout: 120000
+                        )
+                    ], 
+                    usePromotionTimestamp: false, 
+                    useWorkspaceInPromotion: false, 
+                    verbose: false
+                )
+                ])
+            
+            }
+        }*/
 
         /* Deploy using docker-compose 
         stage('push to production using docker-compose')
