@@ -118,16 +118,8 @@
             }
         }
 
-        stage('Cleaning up docker image') 
-        {
-            steps
-            {
-                sh "1youssefbaroudi1/notesapp-javapi:$BUILD_NUMBER"
-            }
-        }
-
         // Deploying using docker-compose
-        /*stage ('Deploy to production using docker-compose')
+        stage ('Deploy to production using docker-compose')
         {
             steps 
             {
@@ -151,15 +143,6 @@
                 )
                 ])
             
-            }
-        }*/
-
-        /* Deploy using docker-compose 
-        stage('push to production using docker-compose')
-        {
-            steps 
-            {
-                ansiblePlaybook playbook: '/opt/playbooks/ansible-deployment-docker.yml'
             }
         }
         /*
