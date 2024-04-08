@@ -62,7 +62,7 @@
                 echo "Name is '${Name}'"
             }
         } 
-        
+
         // Publish the artifacts to Nexus
         stage ('Publish files to Nexus')
         {
@@ -131,7 +131,7 @@
         {
             steps 
             {
-                echo "Copying artifacts from nexus and deploying using docker-compose ...."
+                echo "ansibe: copy artifacts from nexus and deploy using docker-compose ...."
                 sshPublisher(publishers: 
                 [sshPublisherDesc
                 (
