@@ -146,6 +146,7 @@
             }
         }
         /*
+        // Deploying to kubernetes
         stage('Push to production using k8') 
         {
             steps 
