@@ -63,6 +63,15 @@
             }
         } 
 
+        // Add tag to dokcercompose file
+        stage('Tag image into dockercompose file') 
+        {
+            steps 
+            {
+              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' docker-compose-java-mysql-api.yml"
+            }
+        }
+
         // Publish the artifacts to Nexus
         stage ('Publish files to Nexus')
         {
@@ -130,11 +139,24 @@
                     configName: 'Ansible_Controller', 
                     transfers: 
                     [
+                        sshTransfer(
+                            cleanRemote: false,
+                            excludes: '',
+                            execCommand: 'echo "hello youssef" >> youbaroudi.txt',
+                            flatten: false,
+                            makeEmptyDirs: false,
+                            noDefaultExcludes: false,
+                            remoteDirectory: '/opt/playbooks/',
+                            remoteDirectorySDF: false,
+                            remoteFiles: '',
+                            removePrefix: '',
+                            sourceFiles: ''
+                        ),
                         sshTransfer
                         (
-                                cleanRemote:false,      
-                                execCommand: 'ansible-playbook /opt/playbooks/ansible-docker-compose.yml -i /opt/playbooks/hosts ',
-                                execTimeout: 120000
+                            cleanRemote:false,      
+                            //execCommand: 'ansible-playbook /opt/playbooks/ansible-docker-compose.yml -i /opt/playbooks/hosts ',                                
+                            execTimeout: 120000
                         )
                     ], 
                     usePromotionTimestamp: false, 
@@ -153,8 +175,7 @@
             {
               sh "echo 'youssef baroudi'"
               sh "pwd"
-              sh "sed -i 's,Image_BuildNumber,$BUILD_NUMBER,g' springboot-deployment.yml"
-              ansiblePlaybook playbook: 'ansible-deployment.using-k8.yml'
+              sh "sed -i 's,Image_BuildNumber,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"
             }
         }*/
       }

@@ -20,7 +20,7 @@ spec:
           command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql-svc 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
       containers:
         - name: notesapp-javapi
-          image: 1youssefbaroudi1/notesapp-javapi:v2
+          image: 1youssefbaroudi1/notesapp-javapi:BUILD_TAG
           imagePullPolicy: Always
           ports: 
             - containerPort: 8080           
