@@ -69,6 +69,7 @@
             steps 
             {
               sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' docker-compose-java-mysql-api.yml"
+              sh "cat docker-compose-java-mysql-api.yml"
             }
         }
 
