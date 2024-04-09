@@ -143,11 +143,10 @@
                         sshTransfer(
                             cleanRemote: false,
                             excludes: '',
-                            execCommand: 'echo "hello youssef" >> youbaroudi.txt',
+                            execCommand: 'echo "hello youssef" >> /opt/playbooks/youbaroudi.txt',
                             flatten: false,
                             makeEmptyDirs: false,
                             noDefaultExcludes: false,
-                            remoteDirectory: '/opt/playbooks/',
                             remoteDirectorySDF: false,
                             remoteFiles: '',
                             removePrefix: '',
@@ -156,8 +155,14 @@
                         sshTransfer
                         (
                             cleanRemote:false,      
-                            //execCommand: 'ansible-playbook /opt/playbooks/ansible-docker-compose.yml -i /opt/playbooks/hosts ',                                
-                            execTimeout: 120000
+                            execCommand: 'ansible-playbook /opt/playbooks/ansible-docker-compose.yml -i /opt/playbooks/hosts ',                                
+                            flatten: false,
+                            makeEmptyDirs: false,
+                            noDefaultExcludes: false,
+                            remoteDirectorySDF: false,
+                            remoteFiles: '',
+                            removePrefix: '',
+                            sourceFiles: ''
                         )
                     ], 
                     usePromotionTimestamp: false, 
