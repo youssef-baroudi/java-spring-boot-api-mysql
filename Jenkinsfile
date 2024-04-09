@@ -1,9 +1,9 @@
   pipeline {
-      agent any 
-      /*agent
+      //agent any 
+      agent
       {
-          label 'node1'
-      }*/
+          label 'node2'
+      }
       environment 
       {
         ArtifactId = readMavenPom().getArtifactId()
