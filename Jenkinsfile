@@ -84,10 +84,12 @@
 
                     nexusArtifactUploader artifacts: 
                     [
-                        [artifactId: "${ArtifactId}", 
-                        classifier: '', 
-                        file: "target/${ArtifactId}-${Version}.jar", 
-                        type: 'jar'],
+                        /* no need if we build run java inside image => see Dockerfile
+                          [artifactId: "${ArtifactId}", 
+                          classifier: '', 
+                          file: "target/${ArtifactId}-${Version}.jar", 
+                          type: 'jar'],*/
+
                         
                         [artifactId: "${ArtifactId}", 
                         classifier: '', 
@@ -178,7 +180,7 @@
         }
         /*
         // Deploying to kubernetes
-        stage('Push to production using k8') 
+        stage('Push to production using kubernetes') 
         {
             steps 
             {

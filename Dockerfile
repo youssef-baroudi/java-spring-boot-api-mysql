@@ -4,7 +4,7 @@
 #ENTRYPOINT ["java","-jar","/app.jar"]
 
 # this method allow to exclude the target folder to be committed
-FROM maven:3.8.5-openjdk-17
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 COPY . .
