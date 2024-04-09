@@ -140,18 +140,21 @@
                     configName: 'Ansible_Controller', 
                     transfers: 
                     [
-                        sshTransfer(
+                        /*sshTransfer
+                        (
                             cleanRemote: false,
                             excludes: '',
-                            execCommand: 'echo "hello youssef" >> /opt/playbooks/youbaroudi.txt',
+                            execCommand: 'sudo cp /home/your_username/your_jar_file.jar /opt/your_service_directory/',
                             flatten: false,
                             makeEmptyDirs: false,
                             noDefaultExcludes: false,
+                            patternSeparator: '[, ]+',
+                            remoteDirectory: '/home/your_username/',
                             remoteDirectorySDF: false,
                             remoteFiles: '',
                             removePrefix: '',
                             sourceFiles: ''
-                        ),
+                        ),*/
                         sshTransfer
                         (
                             cleanRemote:false,      
