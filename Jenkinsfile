@@ -69,7 +69,6 @@
             steps 
             {
               sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' docker-compose-java-mysql-api.yml"
-              sh "cat docker-compose-java-mysql-api.yml"
             }
         }
 
@@ -178,16 +177,14 @@
             
             }
         }
-        /*
+        
         // Deploying to kubernetes
         stage('Push to production using kubernetes') 
         {
             steps 
-            {
-              sh "echo 'youssef baroudi'"
-              sh "pwd"
-              sh "sed -i 's,Image_BuildNumber,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"
+            {              
+              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"              
             }
-        }*/
+        }
       }
   }
