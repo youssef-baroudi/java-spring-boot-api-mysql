@@ -93,6 +93,39 @@
                         [artifactId: "${ArtifactId}", 
                         classifier: '', 
                         file: "docker-compose-java-mysql-api.yml", 
+                        type: 'yml'],
+
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/01-storage-class.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/02-persistent-volume-claim.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/03-NotesApp-ConfigMap.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/04-secrets.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/05-mysql-clusterip-service.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/06-mysql-deployment.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/07-NotesApp-Deployment.yml", 
+                        type: 'yml'],
+                        [artifactId: "${ArtifactId}", 
+                        classifier: '', 
+                        file: "kube-manifests/08-NotesApp-Service.yml", 
                         type: 'yml']
                     ], 
                     credentialsId: 'Nexus-credential', 
@@ -183,7 +216,42 @@
         {
             steps 
             {              
-              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"              
+              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"     
+              sh "cat kube-manifests/07-NotesApp-Deployment.yml"          
+            }
+        }
+
+        // Deploying using docker-compose
+        stage ('Deploy to production using docker-compose')
+        {
+            steps 
+            {
+                echo "ansibe: copy artifacts from nexus and deploy to kubernetes ...."
+                sshPublisher(publishers: 
+                [sshPublisherDesc
+                (
+                    configName: 'Ansible_Controller', 
+                    transfers: 
+                    [
+                        sshTransfer
+                        (
+                            cleanRemote:false,      
+                            execCommand: 'ansible-playbook /opt/playbooks/ansible-kubernetes.yml -i /opt/playbooks/hosts ',                                
+                            flatten: false,
+                            makeEmptyDirs: false,
+                            noDefaultExcludes: false,
+                            remoteDirectorySDF: false,
+                            remoteFiles: '',
+                            removePrefix: '',
+                            sourceFiles: ''
+                        )
+                    ], 
+                    usePromotionTimestamp: false, 
+                    useWorkspaceInPromotion: false, 
+                    verbose: true
+                )
+                ])
+            
             }
         }
       }
