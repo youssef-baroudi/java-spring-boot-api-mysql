@@ -2,7 +2,7 @@
       //agent any 
       agent
       {
-          label 'node1'
+          label 'node2'
       }
       environment 
       {
