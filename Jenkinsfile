@@ -64,7 +64,7 @@
         } 
 
         // Add tag to dokcercompose file
-        stage('Tag image into dockercompose file') 
+        stage('Add tag image into dockercompose file') 
         {
             steps 
             {
@@ -212,7 +212,7 @@
         }
         
         // Deploying to kubernetes
-        stage('Push to production using kubernetes') 
+        stage('Add tag image into k8 deployment file') 
         {
             steps 
             {              
@@ -222,7 +222,7 @@
         }
 
         // Deploying using docker-compose
-        stage ('Deploy to production using docker-compose')
+        stage ('Deploy to production using kubernetes')
         {
             steps 
             {
