@@ -98,7 +98,7 @@
                     ], 
                     credentialsId: 'Nexus-credential', 
                     groupId: "${GroupId}", 
-                    nexusUrl: '192.168.0.211:8081', 
+                    nexusUrl: '192.168.1.211:8081', 
                     nexusVersion: 'nexus3', 
                     protocol: 'http', 
                     repository: "${NexusRepo}", 
