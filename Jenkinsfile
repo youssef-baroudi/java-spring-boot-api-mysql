@@ -63,7 +63,7 @@
             }
         } 
 
-        // Add tag to artifacts file
+        // Add tag to artifacts files
         stage('Add tag image into artifacts files') 
         {
             steps 
