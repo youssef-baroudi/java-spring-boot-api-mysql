@@ -63,12 +63,14 @@
             }
         } 
 
-        // Add tag to dokcercompose file
-        stage('Add tag image into dockercompose file') 
+        // Add tag to artifacts file
+        stage('Add tag image into artifacts files') 
         {
             steps 
             {
               sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' docker-compose-java-mysql-api.yml"
+              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"     
+              sh "cat kube-manifests/07-NotesApp-Deployment.yml"
             }
         }
 
@@ -181,17 +183,7 @@
                 ])
             
             }
-        }
-        
-        // Deploying to kubernetes
-        stage('Add tag image into k8 deployment file') 
-        {
-            steps 
-            {              
-              sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"     
-              sh "cat kube-manifests/07-NotesApp-Deployment.yml"          
-            }
-        }
+        }                
 
         // Deploying using docker-compose
         stage ('Deploy to production using kubernetes')
