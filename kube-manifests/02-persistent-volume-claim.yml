@@ -17,7 +17,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: local-storage #local-notesapp-retain-sc 
+  storageClassName: local-notesapp-retain-sc 
   resources:
     requests:
       storage: 500Mi 
