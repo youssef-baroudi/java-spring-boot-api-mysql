@@ -70,7 +70,7 @@
             {
               sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' docker-compose-java-mysql-api.yml"
               sh "sed -i 's,BUILD_TAG,$BUILD_NUMBER,g' kube-manifests/07-NotesApp-Deployment.yml"     
-              sh "cat kube-manifests/07-NotesApp-Deployment.yml"
+              sh "zip -r kube-manifests.zip kube-manifests"
             }
         }
 
@@ -99,7 +99,7 @@
 
                         [artifactId: "${ArtifactId}", 
                         classifier: '', 
-                        file: "kube-manifests/kube-manifests.zip", 
+                        file: "kube-manifests.zip", 
                         type: 'zip']
                     ], 
                     credentialsId: 'Nexus-credential', 
