@@ -97,7 +97,7 @@
 
                         [artifactId: "${ArtifactId}", 
                         classifier: '', 
-                        file: "kube-manifests.zip", 
+                        file: "kube-manifests/kube-manifests.zip", 
                         type: 'zip']
                     ], 
                     credentialsId: 'Nexus-credential', 
